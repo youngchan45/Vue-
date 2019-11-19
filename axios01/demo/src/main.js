@@ -2,10 +2,10 @@ import Vue from 'vue'
 import App from './App.vue'
 import router from './router'
 import store from './store'
-import { Button } from 'vant'
+import { Button,ContactList,ContactEdit  } from 'vant'
 
 Vue.config.productionTip = false
-Vue.use(Button)
+Vue.use(Button,ContactList,ContactEdit )
 
 new Vue({
   router,
