@@ -1,3 +1,5 @@
+//此文件用來封裝我們的axios
+
 import axios from 'axios'
 import service from './contactApi'
 //service循环遍歷輸出不同的請求方法
@@ -6,7 +8,7 @@ let instance = axios.create({
     timeout: 1000,
 })
 const Http = {};//包裹請求方法的容器
-
+//请求格式/参数的统一
 for (let key in service) {
     //key代表contactApi.js裡面的每個請求方法
     let api = service[key];//url method
@@ -44,8 +46,14 @@ for (let key in service) {
             } catch (err) {
                 response = err
             }
-        }else if(api.method==='delete'){
-            
+        } else if (api.method === 'delete'||api.method === 'get') {
+            config.params=newParams
+            try{
+                response=await instance[api.method](api.url,config)
+            }catch (err) {
+                response = err
+            }
         }
+        return response
     }
 }

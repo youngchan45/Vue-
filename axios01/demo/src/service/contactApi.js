@@ -1,3 +1,5 @@
+//統一管理我們的接口
+
 const CONTACT_API = {
     //獲取聯繫人列表
     getContactList: {
