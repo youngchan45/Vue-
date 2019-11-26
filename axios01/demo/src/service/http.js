@@ -26,13 +26,13 @@ for (let key in service) {
         // }catch(err){
         //     res=err
         // }
-        let url = api.url
+  
         let newParams = {}
         //content-type是否是form-data的判斷
         if (params && isFormData) {
             newParams = new params()
             for (let i in newParams) {
-                newParams.append(key, params[key])
+                newParams.append(i, params[i])
             }
         } else {
             newParams = params
@@ -57,3 +57,30 @@ for (let key in service) {
         return response
     }
 }
+
+instance.interceptors.request.use(config=>{
+    //发起请求前做些什么
+    this.$toast({
+        mask:false,
+        duration:0,
+        forbidClick:true,
+        message:'加载中...'
+    })
+    return config
+},err=>{
+    this.$toast.clear()
+    this.$toast('请求错误')
+    console.log(err)
+})
+
+instance.interceptors.response.use(
+    res=>{
+        this.$toast.clear()
+        return res.data
+    },err=>{
+        this.$toast.clear()
+        this.$toast('请求错误')
+        console.log(err)
+    }
+)
+export default Http

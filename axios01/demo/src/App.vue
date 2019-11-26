@@ -15,6 +15,7 @@
 
 <script>
 import axios from "axios";
+import Http from './service/http'
 export default {
   data() {
     return {
@@ -35,27 +36,21 @@ export default {
   },
   methods: {
     //獲取聯繫人列表
-    getList() {
-      this.instance
-        .get("/contactList")
-        .then(res => {
-          this.list = res.data.data;
-        })
-        .catch(error => {
-          //和官网文档不同 且t为小写
-          // console.log('error------', error.response.status)
-          // let str='页面不见啦';
-          // if(error.response.status=='500'){
-          //   str='页面不见啦'
-          // }
-          // this.$toast(str);
-
-          //重點 易錯
-          console.log(error.response);
-          if (error.response) {
-            this.$toast("請求失敗");
-          }
-        });
+    async getList() {
+      let res= await this.$Http.getContactList()
+      this.list=res.data
+      // this.instance
+      //   .get("/contactList")
+      //   .then(res => {
+      //     this.list = res.data.data;
+      //   })
+      //   .catch(error => {
+      //     //和官网文档不同 且t为小写
+      //     //重點 易錯
+      //     if (error.response) {
+      //       this.$toast("請求失敗");
+      //     }
+      //   });
     },
     // 添加联系人
     onAdd() {
@@ -71,7 +66,7 @@ export default {
     },
 
     // 保存联系人
-    onSave(info) {
+    async onSave(info) {
       if (this.isEdit) {
         //編輯保存
         this.instance.put("/contact/edit", info).then(res => {
